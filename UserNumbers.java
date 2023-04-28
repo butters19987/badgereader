@@ -36,7 +36,8 @@ public class UserNumbers {
             System.out.println("Enter 2 to search for a name by numbers");
             System.out.println("Enter 3 to check in");
             System.out.println("Enter 4 to search for numbers by name");
-            System.out.println("Enter 5 to exit");
+            System.out.println("Enter 5 to change the license status of a user");
+            System.out.println("Enter 6 to exit");
             System.out.println("------------------------------------------");
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -85,7 +86,7 @@ public class UserNumbers {
                     }
                     break;
 
-                case 5:
+                case 6:
                     exit = true;
                     break;
                 default:
@@ -104,6 +105,56 @@ public class UserNumbers {
     }
     if (!found) {
         System.out.println("No user found with the given name");
+    }
+    break;
+    case 5:
+    System.out.println("Enter string of numbers to search:");
+    String searchNumbersWithLicense = scanner.nextLine();
+    if (users.containsKey(searchNumbersWithLicense)) {
+        String searchNameWithLicense = users.get(searchNumbersWithLicense);
+        if (searchNameWithLicense.endsWith("*")) {
+            System.out.println("User name: " + searchNameWithLicense);
+            System.out.println("User has a license.");
+            System.out.println("Do you want to add or remove the license? (Type 'add' or 'remove')");
+            String licenseAction = scanner.nextLine().toLowerCase();
+            if (licenseAction.equals("add")) {
+                String newNameWithLicense = searchNameWithLicense.substring(0, searchNameWithLicense.length() - 1);
+                users.put(searchNumbersWithLicense, newNameWithLicense);
+                saveToFile(users, file);
+                System.out.println("License added for user " + newNameWithLicense);
+            } else if (licenseAction.equals("remove")) {
+                String newNameWithLicense = searchNameWithLicense.substring(0, searchNameWithLicense.length() - 1);
+                newNameWithLicense += "";
+                users.put(searchNumbersWithLicense, newNameWithLicense);
+                saveToFile(users, file);
+                System.out.println("License removed for user " + newNameWithLicense);
+            } else {
+                System.out.println("Invalid action.");
+            }
+        } else {
+            System.out.println("User name: " + searchNameWithLicense);
+            System.out.println("User does not have a license.");
+             System.out.println("Do you want to add or remove the license? (Type 'add' or 'remove')");
+            String licenseAction = scanner.nextLine().toLowerCase();
+            if (licenseAction.equals("add")) {
+                String newNameWithLicense = searchNameWithLicense.substring(0, searchNameWithLicense.length());
+                newNameWithLicense = newNameWithLicense+"*";
+                users.put(searchNumbersWithLicense, newNameWithLicense);
+                saveToFile(users, file);
+                System.out.println("License added for user " + newNameWithLicense);
+            } else if (licenseAction.equals("remove")) {
+                String newNameWithLicense = searchNameWithLicense.substring(0, searchNameWithLicense.length() - 1);
+                newNameWithLicense += "";
+                users.put(searchNumbersWithLicense, newNameWithLicense);
+                saveToFile(users, file);
+                System.out.println("License removed for user " + newNameWithLicense);
+        }
+            
+            
+            
+        }
+    } else {
+        System.out.println("No user found for the given numbers");
     }
     break;
 
