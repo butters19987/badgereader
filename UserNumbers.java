@@ -40,6 +40,7 @@ public class UserNumbers {
             System.out.println("Enter 6 to exit");
             System.out.println("------------------------------------------");
             int choice = scanner.nextInt();
+            String lastCheckedIn="";
             scanner.nextLine();
 
             switch (choice) {
@@ -67,14 +68,19 @@ public class UserNumbers {
                     System.out.println("Enter string of numbers to check in:");
                     System.out.println("------------------------------------------");
                     String checkinNumbers = scanner.nextLine();
+                    lastCheckedIn="";
                     while (!checkinNumbers.equalsIgnoreCase("exit")) {
-                        if (users.containsKey(checkinNumbers)) {
+                        if (lastCheckedIn.equals(checkinNumbers)){
+                            System.out.println("The user has already been checked in!");
+                        }
+                        else if (users.containsKey(checkinNumbers)) {
                             String checkinName = users.get(checkinNumbers);
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             String timestamp = sdf.format(new Date());
                             String checkinLine = checkinNumbers + "," + checkinName + "," + timestamp;
                             saveToFile(checkinLine, new File("checkin.txt"));
                             System.out.println(checkinName + " checked in successfully");
+                            lastCheckedIn=checkinNumbers;
                         } else {
                             System.out.println("No user found for the given numbers");
                         }
